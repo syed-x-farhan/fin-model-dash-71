@@ -215,25 +215,25 @@ export default function FinancialDashboard() {
       const updatedSections = [...variableSections];
       
       data.forEach(row => {
-        const nameMapping = mappings.find(m => m.targetField === 'name');
-        const valueMapping = mappings.find(m => m.targetField === 'value');
-        
-        if (nameMapping && valueMapping && row[nameMapping.sourceColumn] && row[valueMapping.sourceColumn]) {
-          const variableName = String(row[nameMapping.sourceColumn]).toLowerCase().replace(/\s+/g, '-');
-          const value = parseFloat(String(row[valueMapping.sourceColumn])) || 0;
-          
-          // Find matching variable by name similarity across all sections
-          updatedSections.forEach(section => {
-            const matchingVariable = section.variables.find(variable => 
-              variable.name.toLowerCase().includes(variableName) || 
-              variableName.includes(variable.name.toLowerCase().replace(/\s+/g, '-'))
-            );
+        // Find mappings that correspond to variable names and values
+        mappings.forEach(mapping => {
+          if (mapping.mappedTo && row[mapping.excelColumn]) {
+            const mappedCategory = mapping.mappedTo;
+            const value = parseFloat(String(row[mapping.excelColumn].value)) || 0;
             
-            if (matchingVariable) {
-              matchingVariable.value = value;
-            }
-          });
-        }
+            // Find matching variable by mapped category across all sections
+            updatedSections.forEach(section => {
+              const matchingVariable = section.variables.find(variable => 
+                variable.name.toLowerCase().includes(mappedCategory.toLowerCase()) || 
+                mappedCategory.toLowerCase().includes(variable.name.toLowerCase().replace(/\s+/g, '_'))
+              );
+              
+              if (matchingVariable) {
+                matchingVariable.value = value;
+              }
+            });
+          }
+        });
       });
       
       setVariableSections(updatedSections);
