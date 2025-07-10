@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { PlusCircle, Trash2, Calculator, TrendingUp, DollarSign, BarChart3, Activity, ChevronDown, Play, Building2, Laptop, Home, Factory, FileText, TrendingDown, Plus, Edit3 } from 'lucide-react';
+import { PlusCircle, Trash2, Calculator, TrendingUp, DollarSign, BarChart3, Activity, ChevronDown, Play, Building2, Laptop, Home, Factory, FileText, TrendingDown, Plus, Edit3, Upload } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 // Import organized model configurations
@@ -22,6 +22,10 @@ import ThreeStatementDashboard from '@/components/dashboards/ThreeStatementDashb
 import DCFDashboard from '@/components/dashboards/DCFDashboard';
 import LBODashboard from '@/components/dashboards/LBODashboard';
 import StartupDashboard from '@/components/dashboards/StartupDashboard';
+
+// Import Excel components
+import { ImportWizard } from '@/components/excel/ImportWizard';
+import { RowData, ColumnMapping } from '@/components/excel/DataPreviewTable';
 
 /**
  * Form Data Interface for Variable Creation
@@ -94,6 +98,7 @@ export default function FinancialDashboard() {
   const [currentSection, setCurrentSection] = useState<string | null>(null);
   const [isAddingVariable, setIsAddingVariable] = useState(false);
   const [activeSection, setActiveSection] = useState<string | null>(null);
+  const [showImportWizard, setShowImportWizard] = useState(false);
 
   // Form Management for Adding Variables - Fixed Type Definition
   const addVariableForm = useForm<VariableFormData>({
@@ -202,6 +207,57 @@ export default function FinancialDashboard() {
   };
 
   /**
+   * Handle Excel Import
+   */
+  const handleImportComplete = async (data: RowData[], mappings: ColumnMapping[]) => {
+    try {
+      // Process imported data and update variables
+      const updatedSections = [...variableSections];
+      
+      data.forEach(row => {
+        const nameMapping = mappings.find(m => m.targetField === 'name');
+        const valueMapping = mappings.find(m => m.targetField === 'value');
+        
+        if (nameMapping && valueMapping && row[nameMapping.sourceColumn] && row[valueMapping.sourceColumn]) {
+          const variableName = String(row[nameMapping.sourceColumn]).toLowerCase().replace(/\s+/g, '-');
+          const value = parseFloat(String(row[valueMapping.sourceColumn])) || 0;
+          
+          // Find matching variable by name similarity across all sections
+          updatedSections.forEach(section => {
+            const matchingVariable = section.variables.find(variable => 
+              variable.name.toLowerCase().includes(variableName) || 
+              variableName.includes(variable.name.toLowerCase().replace(/\s+/g, '-'))
+            );
+            
+            if (matchingVariable) {
+              matchingVariable.value = value;
+            }
+          });
+        }
+      });
+      
+      setVariableSections(updatedSections);
+      setShowImportWizard(false);
+      
+      toast({
+        title: "Import Successful",
+        description: `Imported ${data.length} rows of financial data.`
+      });
+    } catch (error) {
+      console.error('Import failed:', error);
+      toast({
+        title: "Import Failed",
+        description: "There was an error importing your data. Please try again.",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleImportCancel = () => {
+    setShowImportWizard(false);
+  };
+
+  /**
    * Get Model Display Information
    */
   const getModelName = () => {
@@ -284,9 +340,26 @@ export default function FinancialDashboard() {
                 <div className="space-y-6">
                   <div className="flex items-center justify-between">
                     <h2 className="text-lg font-semibold text-foreground">Model Variables</h2>
-                    <Badge variant="outline">
-                      {variableSections.reduce((acc, section) => acc + section.variables.length, 0)} variables
-                    </Badge>
+                    <Dialog open={showImportWizard} onOpenChange={setShowImportWizard}>
+                      <DialogTrigger asChild>
+                        <Button variant="outline" className="gap-2">
+                          <Upload className="h-4 w-4" />
+                          Import from Excel
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="max-w-6xl h-[90vh] overflow-auto">
+                        <DialogHeader>
+                          <DialogTitle>Import Financial Data</DialogTitle>
+                          <DialogDescription>
+                            Upload and map your Excel data to populate the model variables
+                          </DialogDescription>
+                        </DialogHeader>
+                        <ImportWizard
+                          onImportComplete={handleImportComplete}
+                          onCancel={handleImportCancel}
+                        />
+                      </DialogContent>
+                    </Dialog>
                   </div>
 
                   {/* Variable Sections Grid */}
