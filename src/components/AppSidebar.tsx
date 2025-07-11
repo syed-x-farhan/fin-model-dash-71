@@ -1,5 +1,4 @@
-
-import { BarChart3 } from 'lucide-react';
+import { BarChart3, TrendingUp, Building2, Rocket } from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
@@ -16,6 +15,21 @@ const models = [
     id: '3-statement',
     name: '3-Statement Model',
     icon: BarChart3,
+  },
+  {
+    id: 'dcf',
+    name: 'DCF Model',
+    icon: TrendingUp,
+  },
+  {
+    id: 'lbo',
+    name: 'LBO Model',
+    icon: Building2,
+  },
+  {
+    id: 'startup',
+    name: 'Startup Model',
+    icon: Rocket,
   },
 ];
 
@@ -82,6 +96,12 @@ export function AppSidebar({ selectedModel, onModelSelect }: AppSidebarProps) {
                   <SidebarMenuButton className="w-full justify-start px-3 py-2 mx-2 mb-1 rounded-lg text-sidebar-foreground hover:bg-sidebar-accent">
                     <BarChart3 className="h-4 w-4 mr-3" />
                     <span className="text-sm">Dashboard</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton className="w-full justify-start px-3 py-2 mx-2 mb-1 rounded-lg text-sidebar-foreground hover:bg-sidebar-accent">
+                    <TrendingUp className="h-4 w-4 mr-3" />
+                    <span className="text-sm">Variables</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               </SidebarMenu>

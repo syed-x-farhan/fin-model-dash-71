@@ -1,124 +1,73 @@
-# Financial Dashboard Application
+# Welcome to your Lovable project
 
-A comprehensive financial modeling dashboard application built with React, TypeScript, and FastAPI. Create, configure, and visualize various financial models including 3-Statement Models, DCF Valuations, LBO Analysis, and Startup Models.
+## Project info
 
-## Features
+**URL**: https://lovable.dev/projects/d9047deb-8a30-4151-8d94-cf133fcf2f38
 
-- **Multiple Financial Models**: 3-Statement, DCF, LBO, and Startup financial models
-- **Interactive Dashboards**: Real-time charts and KPI visualization
-- **Excel Import**: Import and map financial data from Excel files
-- **Backend Calculations**: Python FastAPI backend with authentic financial calculation engine
-- **Modern UI**: Built with shadcn/ui components and Tailwind CSS
-- **Database Integration**: PostgreSQL with SQLAlchemy for data persistence
+## How can I edit this code?
 
-## Tech Stack
+There are several ways of editing your application.
 
-### Frontend
-- React 18 with TypeScript
-- Vite for build tooling
-- shadcn/ui components
+**Use Lovable**
+
+Simply visit the [Lovable Project](https://lovable.dev/projects/d9047deb-8a30-4151-8d94-cf133fcf2f38) and start prompting.
+
+Changes made via Lovable will be committed automatically to this repo.
+
+**Use your preferred IDE**
+
+If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+
+The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+
+Follow these steps:
+
+```sh
+# Step 1: Clone the repository using the project's Git URL.
+git clone <YOUR_GIT_URL>
+
+# Step 2: Navigate to the project directory.
+cd <YOUR_PROJECT_NAME>
+
+# Step 3: Install the necessary dependencies.
+npm i
+
+# Step 4: Start the development server with auto-reloading and an instant preview.
+npm run dev
+```
+
+**Edit a file directly in GitHub**
+
+- Navigate to the desired file(s).
+- Click the "Edit" button (pencil icon) at the top right of the file view.
+- Make your changes and commit the changes.
+
+**Use GitHub Codespaces**
+
+- Navigate to the main page of your repository.
+- Click on the "Code" button (green button) near the top right.
+- Select the "Codespaces" tab.
+- Click on "New codespace" to launch a new Codespace environment.
+- Edit files directly within the Codespace and commit and push your changes once you're done.
+
+## What technologies are used for this project?
+
+This project is built with:
+
+- Vite
+- TypeScript
+- React
+- shadcn-ui
 - Tailwind CSS
-- Recharts for data visualization
-- TanStack Query for state management
 
-### Backend
-- FastAPI with Python 3.11
-- SQLAlchemy ORM
-- PostgreSQL database
-- Real financial calculation engine
+## How can I deploy this project?
 
-## Quick Start
+Simply open [Lovable](https://lovable.dev/projects/d9047deb-8a30-4151-8d94-cf133fcf2f38) and click on Share -> Publish.
 
-1. **Clone the repository**
-   ```bash
-   git clone <your-repo-url>
-   cd financial-dashboard
-   ```
+## Can I connect a custom domain to my Lovable project?
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+Yes, you can!
 
-3. **Set up database**
-   ```bash
-   # Configure your DATABASE_URL environment variable
-   export DATABASE_URL="postgresql://user:password@localhost:5432/financial_models"
-   ```
+To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
-4. **Start the application**
-   ```bash
-   npm run dev
-   ```
-
-5. **Start the Python backend**
-   ```bash
-   cd backend
-   pip install -r requirements.txt
-   python run_backend.py
-   ```
-
-The application will be available at:
-- Frontend: http://localhost:5000
-- Backend API: http://localhost:8000
-
-## Project Structure
-
-```
-├── client/                 # React frontend
-│   ├── src/
-│   │   ├── components/     # UI components
-│   │   ├── pages/         # Application pages
-│   │   ├── services/      # API service layer
-│   │   └── config/        # Model configurations
-├── backend/               # FastAPI backend
-│   ├── main.py           # FastAPI application
-│   ├── database.py       # Database models and operations
-│   └── requirements.txt  # Python dependencies
-├── server/               # Express.js server (auth & sessions)
-└── shared/              # Shared TypeScript schemas
-```
-
-## Usage
-
-1. **Select a Financial Model**: Choose from 3-Statement, DCF, LBO, or Startup models in the sidebar
-2. **Configure Variables**: Adjust financial inputs and assumptions
-3. **Calculate Projections**: Click "Calculate Model" to generate financial projections
-4. **View Results**: Analyze results in interactive dashboards with charts and KPIs
-5. **Import Data**: Use Excel import wizard to load existing financial data
-
-## API Endpoints
-
-- `POST /api/v1/calculate/{model_id}` - Calculate financial projections
-- `GET /api/v1/models/{model_id}/variables` - Get model variables
-- `PUT /api/v1/models/{model_id}/variables` - Update model variables
-- `GET /api/v1/models` - List available models
-- `GET /api/v1/calculations` - Get calculation history
-
-## Development
-
-### Adding New Financial Models
-
-1. Create model configuration in `client/src/config/models/`
-2. Add calculation logic in `backend/main.py`
-3. Create dashboard component in `client/src/components/dashboards/`
-4. Register model in configuration index
-
-### Database Schema
-
-The application uses PostgreSQL with the following main tables:
-- `financial_models` - Model definitions and metadata
-- `calculations` - Calculation results and projections
-- `user_models` - User-specific model configurations
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
-
-## License
-
-MIT License - see LICENSE file for details
+Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
