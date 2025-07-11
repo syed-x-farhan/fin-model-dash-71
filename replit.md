@@ -8,6 +8,20 @@ This is a comprehensive financial modeling dashboard application built with Reac
 
 Preferred communication style: Simple, everyday language.
 
+## Recent Changes
+
+### January 2025 - Lovable to Replit Migration
+- Successfully migrated financial dashboard application from Lovable to Replit
+- Updated routing system from React Router to Wouter for better Replit compatibility
+- Created comprehensive 3-statement model configuration with specific user-requested variables:
+  - Income Statement Inputs (Revenue, COGS, Operating Expenses, etc.)
+  - Balance Sheet Inputs (Cash, AR, Inventory, PP&E, etc.)
+  - Cash Flow Inputs (CapEx, Dividends, Debt/Equity changes)
+  - Forecasting Assumptions (Growth rates, margins, working capital ratios)
+- Implemented FastAPI backend with Python 3.11 for financial calculations
+- Created robust financial calculation engine for 3-statement modeling
+- Added comprehensive API endpoints for model management and calculations
+
 ## System Architecture
 
 ### Frontend Architecture
@@ -21,11 +35,11 @@ Preferred communication style: Simple, everyday language.
 - **Charts**: Recharts for financial data visualization
 
 ### Backend Architecture
-- **Framework**: Express.js with TypeScript
-- **Runtime**: Node.js with ESM modules
-- **Database**: PostgreSQL with Drizzle ORM
+- **Primary Backend**: FastAPI with Python 3.11 (Financial calculations and API)
+- **Secondary Backend**: Express.js with TypeScript (Session management and auth)
+- **Database**: PostgreSQL with Drizzle ORM and SQLAlchemy
 - **Database Driver**: @neondatabase/serverless for serverless PostgreSQL
-- **Development**: Hot reload with Vite integration
+- **Development**: Hot reload with Vite integration for frontend, uvicorn for FastAPI
 - **Session Management**: connect-pg-simple for PostgreSQL session storage
 
 ### Key Components
