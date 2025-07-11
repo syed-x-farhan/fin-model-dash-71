@@ -53,6 +53,7 @@ const ModelConfiguration: React.FC = () => {
   const [match, params] = useRoute('/model/:modelId/configure');
   const modelId = params?.modelId;
   const { toast } = useToast();
+  const { authToken } = useAuth();
 
   const [model, setModel] = useState<Model | null>(null);
   const [variableSections, setVariableSections] = useState<VariableSection[]>([]);

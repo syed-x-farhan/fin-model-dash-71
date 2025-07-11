@@ -38,8 +38,8 @@ interface VariableFormData {
   input_type: 'percentage' | 'fixed' | 'formula';
   category: string;
   applies_to: 'income_statement' | 'balance_sheet' | 'cash_flow';
-  description?: string;
-  unit?: string;
+  description: string;
+  unit: string;
   relative_to?: string;
 }
 
@@ -147,6 +147,7 @@ export default function FinancialDashboard() {
       const newVariable: Variable = {
         id: Date.now().toString(),
         name: newVariableName,
+        description: '',
         value: 0,
         input_type: 'fixed',
         category: 'revenue',
@@ -372,7 +373,7 @@ export default function FinancialDashboard() {
                           <CardHeader>
                             <CardTitle className="flex items-center gap-2 text-base">
                               <IconComponent className="h-5 w-5" />
-                              {section.title}
+                              {section.name}
                             </CardTitle>
                           </CardHeader>
                           <CardContent className="space-y-4">
@@ -439,7 +440,7 @@ export default function FinancialDashboard() {
                                 {/* Add Variable Dialog Content - Fixed Form Handling */}
                                 <DialogContent className="bg-white border-gray-200 text-gray-900 max-w-2xl">
                                   <DialogHeader>
-                                    <DialogTitle>Add Variable to {section.title}</DialogTitle>
+                                    <DialogTitle>Add Variable to {section.name}</DialogTitle>
                                     <DialogDescription className="text-gray-600">
                                       Configure a new variable with metadata for proper categorization
                                     </DialogDescription>
@@ -447,8 +448,15 @@ export default function FinancialDashboard() {
                                   <Form {...addVariableForm}>
                                     <form onSubmit={addVariableForm.handleSubmit((data: VariableFormData) => {
                                       const newVariable: Variable = {
-                                        ...data,
                                         id: Date.now().toString(),
+                                        name: data.name,
+                                        description: data.description,
+                                        value: data.value,
+                                        unit: data.unit,
+                                        input_type: data.input_type,
+                                        category: data.category,
+                                        applies_to: data.applies_to,
+                                        relative_to: data.relative_to,
                                       };
                                       setVariableSections(sections =>
                                         sections.map(s =>
@@ -462,7 +470,7 @@ export default function FinancialDashboard() {
                                       addVariableForm.reset();
                                       toast({
                                         title: "Variable Added",
-                                        description: `"${data.name}" has been added to ${section.title}.`
+                                        description: `"${data.name}" has been added to ${section.name}.`
                                       });
                                     })} className="space-y-6">
                                       <div className="grid grid-cols-2 gap-4">
