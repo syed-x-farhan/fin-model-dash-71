@@ -358,12 +358,12 @@ const ThreeStatementDashboard: React.FC<ThreeStatementDashboardProps> = ({
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={400}>
-                  <LineChart data={threeStatementMockData.revenue}>
+                  <LineChart data={chartData}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="year" />
                     <YAxis />
                     <Tooltip formatter={(value) => [`$${(value as number).toLocaleString()}`, 'Revenue']} />
-                    <Line type="monotone" dataKey="value" stroke="hsl(var(--primary))" strokeWidth={2} />
+                    <Line type="monotone" dataKey="revenue" stroke="hsl(var(--primary))" strokeWidth={2} />
                   </LineChart>
                 </ResponsiveContainer>
               </CardContent>

@@ -18,6 +18,7 @@ import { MODEL_CONFIGS, ModelId, getModelConfig, isValidModelId } from '@/config
 import { Variable, VariableSection } from '@/config/models/threeStatementConfig';
 
 // Keep existing import statements for dashboard components
+import SimpleDashboard from '@/components/dashboards/SimpleDashboard';
 import ThreeStatementDashboard from '@/components/dashboards/ThreeStatementDashboard';
 import DCFDashboard from '@/components/dashboards/DCFDashboard';
 import LBODashboard from '@/components/dashboards/LBODashboard';
@@ -277,13 +278,13 @@ export default function FinancialDashboard() {
 
     switch (selectedModel) {
       case '3-statement':
-        return <ThreeStatementDashboard />;
+        return <SimpleDashboard modelType="3-Statement" />;
       case 'dcf':
-        return <DCFDashboard />;
+        return <SimpleDashboard modelType="DCF" />;
       case 'lbo':
-        return <LBODashboard />;
+        return <SimpleDashboard modelType="LBO" />;
       case 'startup':
-        return <StartupDashboard />;
+        return <SimpleDashboard modelType="Startup" />;
       default:
         return (
           <div className="space-y-6">
