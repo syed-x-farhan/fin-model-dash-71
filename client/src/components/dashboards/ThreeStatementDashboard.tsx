@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -8,6 +9,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { financialAPI, FinancialProjection, CalculationResponse } from '@/services/api';
 import { useToast } from '@/hooks/use-toast';
+import { threeStatementMockData } from '@/data/threeStatementData';
 
 interface ThreeStatementDashboardProps {
   modelVariables?: Record<string, number>;
@@ -186,6 +188,7 @@ const ThreeStatementDashboard: React.FC<ThreeStatementDashboardProps> = ({
 
   const chartData = prepareChartData(calculationData.projections);
   const summary = calculationData.summary;
+  
   return (
     <div className="space-y-6">
       {/* Dashboard Header Section */}
@@ -468,7 +471,7 @@ const ThreeStatementDashboard: React.FC<ThreeStatementDashboardProps> = ({
 
           {/* Working Capital Components - API Endpoint: /api/v1/balance-sheet/working-capital */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {threeStatementMockData.workingCapital.map((item, index) => (
+            {threeStatementMockData.workingCapital.map((item: any, index: number) => (
               <Card key={index}>
                 <CardHeader>
                   <CardTitle>{item.metric}</CardTitle>
@@ -558,7 +561,7 @@ const ThreeStatementDashboard: React.FC<ThreeStatementDashboardProps> = ({
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {threeStatementMockData.ratios.profitability.map((ratio, index) => (
+                  {threeStatementMockData.ratios.profitability.map((ratio: any, index: number) => (
                     <div key={index} className="p-4 border rounded-lg">
                       <div className="text-sm font-medium text-muted-foreground">{ratio.metric}</div>
                       <div className="text-2xl font-bold">{ratio.value}%</div>
@@ -578,7 +581,7 @@ const ThreeStatementDashboard: React.FC<ThreeStatementDashboardProps> = ({
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {threeStatementMockData.ratios.liquidity.map((ratio, index) => (
+                  {threeStatementMockData.ratios.liquidity.map((ratio: any, index: number) => (
                     <div key={index} className="p-4 border rounded-lg">
                       <div className="text-sm font-medium text-muted-foreground">{ratio.metric}</div>
                       <div className="text-2xl font-bold">{ratio.value}</div>
@@ -599,7 +602,7 @@ const ThreeStatementDashboard: React.FC<ThreeStatementDashboardProps> = ({
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {threeStatementMockData.ratios.leverage.map((ratio, index) => (
+                    {threeStatementMockData.ratios.leverage.map((ratio: any, index: number) => (
                       <div key={index} className="flex justify-between items-center p-3 border rounded">
                         <div>
                           <div className="font-medium">{ratio.metric}</div>
@@ -621,7 +624,7 @@ const ThreeStatementDashboard: React.FC<ThreeStatementDashboardProps> = ({
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {threeStatementMockData.ratios.efficiency.map((ratio, index) => (
+                    {threeStatementMockData.ratios.efficiency.map((ratio: any, index: number) => (
                       <div key={index} className="flex justify-between items-center p-3 border rounded">
                         <div>
                           <div className="font-medium">{ratio.metric}</div>
@@ -687,7 +690,7 @@ const ThreeStatementDashboard: React.FC<ThreeStatementDashboardProps> = ({
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {threeStatementMockData.forecastVsActual.map((item, index) => (
+                {threeStatementMockData.forecastVsActual.map((item: any, index: number) => (
                   <div key={index} className="flex justify-between items-center p-4 border rounded-lg">
                     <div className="flex space-x-8">
                       <div>
@@ -714,7 +717,7 @@ const ThreeStatementDashboard: React.FC<ThreeStatementDashboardProps> = ({
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {threeStatementMockData.customKPIs.unitEconomics.map((kpi, index) => (
+                {threeStatementMockData.customKPIs.unitEconomics.map((kpi: any, index: number) => (
                   <div key={index} className="p-4 border rounded-lg">
                     <div className="text-sm font-medium text-muted-foreground">{kpi.metric}</div>
                     <div className="text-2xl font-bold">{kpi.unit}{kpi.value.toLocaleString()}</div>
@@ -732,7 +735,7 @@ const ThreeStatementDashboard: React.FC<ThreeStatementDashboardProps> = ({
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {threeStatementMockData.customKPIs.operational.map((metric, index) => (
+                {threeStatementMockData.customKPIs.operational.map((metric: any, index: number) => (
                   <div key={index} className="p-4 border rounded-lg">
                     <div className="text-sm font-medium text-muted-foreground">{metric.metric}</div>
                     <div className="text-2xl font-bold">{metric.value}{metric.unit}</div>
