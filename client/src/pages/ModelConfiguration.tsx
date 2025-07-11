@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useRoute, useLocation } from 'wouter';
 import { Plus, Edit, Copy, Trash2, Upload, Download } from 'lucide-react';
-import { toast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -49,9 +49,10 @@ interface VariableSection {
 }
 
 const ModelConfiguration: React.FC = () => {
-  const { modelId } = useParams<{ modelId: string }>();
-  const navigate = useNavigate();
-  const { authToken } = useAuth();
+  const [location, navigate] = useLocation();
+  const [match, params] = useRoute('/model/:modelId/configure');
+  const modelId = params?.modelId;
+  const { toast } = useToast();
 
   const [model, setModel] = useState<Model | null>(null);
   const [variableSections, setVariableSections] = useState<VariableSection[]>([]);

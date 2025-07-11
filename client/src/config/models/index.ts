@@ -1,4 +1,3 @@
-
 import { threeStatementVariables, threeStatementModelInfo } from './threeStatementConfig';
 import { dcfVariables, dcfModelInfo } from './dcfConfig';
 import { lboVariables, lboModelInfo } from './lboConfig';
