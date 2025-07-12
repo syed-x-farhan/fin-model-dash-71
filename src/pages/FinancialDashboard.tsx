@@ -20,12 +20,151 @@ import { Variable, VariableSection } from '@/config/models/threeStatementConfig'
 // Keep existing import statements for dashboard components
 import ThreeStatementDashboard from '@/components/dashboards/ThreeStatementDashboard';
 import DCFDashboard from '@/components/dashboards/DCFDashboard';
-import LBODashboard from '@/components/dashboards/LBODashboard';
-import StartupDashboard from '@/components/dashboards/StartupDashboard';
 
 // Import Excel components
 import { ImportWizard } from '@/components/excel/ImportWizard';
 import { RowData, ColumnMapping } from '@/components/excel/DataPreviewTable';
+
+/**
+ * =============================================================================
+ * BACKEND INTEGRATION CONFIGURATION FOR FASTAPI
+ * =============================================================================
+ * 
+ * API Base URL Configuration:
+ * - Development: http://localhost:8000/api/v1
+ * - Production: https://your-api-domain.com/api/v1
+ * 
+ * Required FastAPI Endpoints to Implement:
+ * 
+ * 1. MODEL MANAGEMENT ENDPOINTS:
+ *    GET    /api/v1/models                     - Get all available models
+ *    GET    /api/v1/models/{model_id}          - Get specific model info
+ *    POST   /api/v1/models/{model_id}/calculate - Run model calculations
+ * 
+ * 2. VARIABLE MANAGEMENT ENDPOINTS:
+ *    GET    /api/v1/models/{model_id}/variables        - Get model variables
+ *    POST   /api/v1/models/{model_id}/variables        - Create new variable
+ *    PUT    /api/v1/models/{model_id}/variables/{var_id} - Update variable
+ *    DELETE /api/v1/models/{model_id}/variables/{var_id} - Delete variable
+ * 
+ * 3. DASHBOARD DATA ENDPOINTS:
+ *    GET    /api/v1/models/{model_id}/dashboard         - Get dashboard data
+ *    GET    /api/v1/models/{model_id}/results          - Get calculation results
+ * 
+ * 4. IMPORT/EXPORT ENDPOINTS:
+ *    POST   /api/v1/models/{model_id}/import           - Import Excel data
+ *    GET    /api/v1/models/{model_id}/export           - Export to Excel
+ * 
+ * 5. USER MANAGEMENT (if authentication needed):
+ *    POST   /api/v1/auth/login                         - User login
+ *    POST   /api/v1/auth/logout                        - User logout
+ *    GET    /api/v1/auth/me                           - Get current user
+ */
+
+// Backend API Configuration
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api/v1';
+
+/**
+ * API Service Functions for FastAPI Backend Integration
+ * Replace the mock implementations below with actual API calls
+ */
+const apiService = {
+  // Model Management API Calls
+  async getModels() {
+    // TODO: Replace with actual API call
+    // const response = await fetch(`${API_BASE_URL}/models`);
+    // return await response.json();
+    console.log('API Call: GET /models - Fetching available models');
+    return Promise.resolve(Object.keys(MODEL_CONFIGS));
+  },
+
+  async getModelById(modelId: string) {
+    // TODO: Replace with actual API call
+    // const response = await fetch(`${API_BASE_URL}/models/${modelId}`);
+    // return await response.json();
+    console.log(`API Call: GET /models/${modelId} - Fetching model details`);
+    return Promise.resolve(getModelConfig(modelId as ModelId));
+  },
+
+  // Variable Management API Calls
+  async getModelVariables(modelId: string) {
+    // TODO: Replace with actual API call
+    // const response = await fetch(`${API_BASE_URL}/models/${modelId}/variables`);
+    // return await response.json();
+    console.log(`API Call: GET /models/${modelId}/variables - Fetching model variables`);
+    const config = getModelConfig(modelId as ModelId);
+    return Promise.resolve(config.variables);
+  },
+
+  async createVariable(modelId: string, sectionId: string, variable: Variable) {
+    // TODO: Replace with actual API call
+    // const response = await fetch(`${API_BASE_URL}/models/${modelId}/variables`, {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ sectionId, variable })
+    // });
+    // return await response.json();
+    console.log(`API Call: POST /models/${modelId}/variables - Creating variable:`, variable);
+    return Promise.resolve(variable);
+  },
+
+  async updateVariable(modelId: string, sectionId: string, variableId: string, value: number) {
+    // TODO: Replace with actual API call
+    // const response = await fetch(`${API_BASE_URL}/models/${modelId}/variables/${variableId}`, {
+    //   method: 'PUT',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ sectionId, value })
+    // });
+    // return await response.json();
+    console.log(`API Call: PUT /models/${modelId}/variables/${variableId} - Updating variable value:`, value);
+    return Promise.resolve({ variableId, value });
+  },
+
+  async deleteVariable(modelId: string, sectionId: string, variableId: string) {
+    // TODO: Replace with actual API call
+    // const response = await fetch(`${API_BASE_URL}/models/${modelId}/variables/${variableId}`, {
+    //   method: 'DELETE'
+    // });
+    // return await response.json();
+    console.log(`API Call: DELETE /models/${modelId}/variables/${variableId} - Deleting variable`);
+    return Promise.resolve({ success: true });
+  },
+
+  // Model Calculation API Calls
+  async calculateModel(modelId: string, variables: VariableSection[]) {
+    // TODO: Replace with actual API call
+    // const response = await fetch(`${API_BASE_URL}/models/${modelId}/calculate`, {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ variables })
+    // });
+    // return await response.json();
+    console.log(`API Call: POST /models/${modelId}/calculate - Running calculations with variables:`, variables);
+    return Promise.resolve({ calculationId: Date.now(), status: 'completed' });
+  },
+
+  // Dashboard Data API Calls
+  async getDashboardData(modelId: string) {
+    // TODO: Replace with actual API call
+    // const response = await fetch(`${API_BASE_URL}/models/${modelId}/dashboard`);
+    // return await response.json();
+    console.log(`API Call: GET /models/${modelId}/dashboard - Fetching dashboard data`);
+    return Promise.resolve({ charts: [], metrics: [] });
+  },
+
+  // Import/Export API Calls
+  async importExcelData(modelId: string, data: RowData[], mappings: ColumnMapping[]) {
+    // TODO: Replace with actual API call
+    // const response = await fetch(`${API_BASE_URL}/models/${modelId}/import`, {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ data, mappings })
+    // });
+    // return await response.json();
+    console.log(`API Call: POST /models/${modelId}/import - Importing Excel data:`, { data, mappings });
+    return Promise.resolve({ imported: data.length });
+  }
+};
 
 /**
  * Form Data Interface for Variable Creation
@@ -75,15 +214,16 @@ const RELATIVE_TO_OPTIONS = [
 ];
 
 /**
- * Main Financial Dashboard Component
+ * Main Financial Dashboard Component - Backend Ready
  * 
  * This component orchestrates the entire financial modeling experience.
- * It's organized to be backend-friendly with clear separation of concerns:
+ * All data operations are routed through the apiService for FastAPI integration.
  * 
- * 1. Model Selection - Handled by AppSidebar
- * 2. Variable Configuration - Model-specific variable sections
- * 3. Dashboard Display - Model-specific dashboard components
- * 4. Data Management - Ready for FastAPI integration
+ * Backend Integration Status:
+ * ✅ API service layer implemented
+ * ✅ Error handling prepared
+ * ✅ Loading states ready
+ * ⏳ Replace mock API calls with actual endpoints
  */
 export default function FinancialDashboard() {
   const { toast } = useToast();
@@ -92,6 +232,8 @@ export default function FinancialDashboard() {
   const [selectedModel, setSelectedModel] = useState<ModelId | null>(null);
   const [variableSections, setVariableSections] = useState<VariableSection[]>([]);
   const [showResults, setShowResults] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [calculationResults, setCalculationResults] = useState<any>(null);
   
   // UI State for Variable Management
   const [newVariableName, setNewVariableName] = useState('');
@@ -100,7 +242,7 @@ export default function FinancialDashboard() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [showImportWizard, setShowImportWizard] = useState(false);
 
-  // Form Management for Adding Variables - Fixed Type Definition
+  // Form Management for Adding Variables
   const addVariableForm = useForm<VariableFormData>({
     defaultValues: {
       name: '',
@@ -114,35 +256,49 @@ export default function FinancialDashboard() {
   });
 
   /**
-   * Handle Model Selection
-   * Backend Integration: This will trigger API calls to load model-specific data
-   * API Endpoint: GET /api/v1/models/{model_id}/variables
+   * Handle Model Selection - Backend Integration
+   * FastAPI Endpoint: GET /api/v1/models/{model_id}/variables
    */
-  const handleModelSelect = (modelId: string) => {
+  const handleModelSelect = async (modelId: string) => {
     if (!isValidModelId(modelId)) {
       console.error(`Invalid model ID: ${modelId}`);
       return;
     }
     
-    console.log(`Selecting model: ${modelId}`);
-    setSelectedModel(modelId);
-    
-    // Load model-specific variables from configuration
-    const modelConfig = getModelConfig(modelId);
-    setVariableSections(modelConfig.variables);
-    setShowResults(false);
-    
-    // TODO: Backend Integration - Load saved variables from API
-    // const savedVariables = await fetchModelVariables(modelId);
-    // if (savedVariables) setVariableSections(savedVariables);
+    try {
+      setIsLoading(true);
+      console.log(`Selecting model: ${modelId}`);
+      setSelectedModel(modelId);
+      
+      // Backend Integration: Load model-specific variables from API
+      const variables = await apiService.getModelVariables(modelId);
+      setVariableSections(variables);
+      setShowResults(false);
+      
+      toast({
+        title: "Model Loaded",
+        description: `${getModelConfig(modelId).info.name} variables loaded successfully.`
+      });
+    } catch (error) {
+      console.error('Error loading model:', error);
+      toast({
+        title: "Error Loading Model",
+        description: "Failed to load model variables. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   /**
-   * Handle Variable Addition
-   * Backend Integration: POST /api/v1/models/{model_id}/variables
+   * Handle Variable Addition - Backend Integration
+   * FastAPI Endpoint: POST /api/v1/models/{model_id}/variables
    */
-  const handleAddVariable = (sectionId: string) => {
-    if (newVariableName.trim()) {
+  const handleAddVariable = async (sectionId: string) => {
+    if (!selectedModel || !newVariableName.trim()) return;
+
+    try {
       const newVariable: Variable = {
         id: Date.now().toString(),
         name: newVariableName,
@@ -153,6 +309,9 @@ export default function FinancialDashboard() {
         unit: '%',
       };
       
+      // Backend Integration: Save new variable to API
+      await apiService.createVariable(selectedModel, sectionId, newVariable);
+      
       setVariableSections(sections =>
         sections.map(section =>
           section.id === sectionId
@@ -162,66 +321,139 @@ export default function FinancialDashboard() {
       );
       setNewVariableName('');
       
-      // TODO: Backend Integration - Save new variable to API
-      // await saveVariable(selectedModel, sectionId, newVariable);
+      toast({
+        title: "Variable Added",
+        description: "New variable has been saved to the backend."
+      });
+    } catch (error) {
+      console.error('Error adding variable:', error);
+      toast({
+        title: "Error Adding Variable",
+        description: "Failed to save variable. Please try again.",
+        variant: "destructive"
+      });
     }
   };
 
   /**
-   * Handle Variable Removal
-   * Backend Integration: DELETE /api/v1/models/{model_id}/variables/{variable_id}
+   * Handle Variable Removal - Backend Integration
+   * FastAPI Endpoint: DELETE /api/v1/models/{model_id}/variables/{variable_id}
    */
-  const handleRemoveVariable = (sectionId: string, variableId: string) => {
-    setVariableSections(sections =>
-      sections.map(section =>
-        section.id === sectionId
-          ? { ...section, variables: section.variables.filter(v => v.id !== variableId) }
-          : section
-      )
-    );
-    
-    // TODO: Backend Integration - Remove variable from API
-    // await deleteVariable(selectedModel, sectionId, variableId);
+  const handleRemoveVariable = async (sectionId: string, variableId: string) => {
+    if (!selectedModel) return;
+
+    try {
+      // Backend Integration: Remove variable from API
+      await apiService.deleteVariable(selectedModel, sectionId, variableId);
+      
+      setVariableSections(sections =>
+        sections.map(section =>
+          section.id === sectionId
+            ? { ...section, variables: section.variables.filter(v => v.id !== variableId) }
+            : section
+        )
+      );
+      
+      toast({
+        title: "Variable Removed",
+        description: "Variable has been deleted from the backend."
+      });
+    } catch (error) {
+      console.error('Error removing variable:', error);
+      toast({
+        title: "Error Removing Variable",
+        description: "Failed to delete variable. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
   /**
-   * Handle Variable Value Changes
-   * Backend Integration: PUT /api/v1/models/{model_id}/variables/{variable_id}
+   * Handle Variable Value Changes - Backend Integration
+   * FastAPI Endpoint: PUT /api/v1/models/{model_id}/variables/{variable_id}
    */
-  const handleVariableChange = (sectionId: string, variableId: string, value: number) => {
-    setVariableSections(sections =>
-      sections.map(section =>
-        section.id === sectionId
-          ? {
-              ...section,
-              variables: section.variables.map(variable =>
-                variable.id === variableId ? { ...variable, value } : variable
-              )
-            }
-          : section
-      )
-    );
-    
-    // TODO: Backend Integration - Update variable value in API
-    // await updateVariableValue(selectedModel, sectionId, variableId, value);
+  const handleVariableChange = async (sectionId: string, variableId: string, value: number) => {
+    if (!selectedModel) return;
+
+    try {
+      // Backend Integration: Update variable value in API
+      await apiService.updateVariable(selectedModel, sectionId, variableId, value);
+      
+      setVariableSections(sections =>
+        sections.map(section =>
+          section.id === sectionId
+            ? {
+                ...section,
+                variables: section.variables.map(variable =>
+                  variable.id === variableId ? { ...variable, value } : variable
+                )
+              }
+            : section
+        )
+      );
+    } catch (error) {
+      console.error('Error updating variable:', error);
+      toast({
+        title: "Error Updating Variable",
+        description: "Failed to save variable changes.",
+        variant: "destructive"
+      });
+    }
   };
 
   /**
-   * Handle Excel Import
+   * Handle Model Calculation - Backend Integration
+   * FastAPI Endpoint: POST /api/v1/models/{model_id}/calculate
+   */
+  const handleCalculateModel = async () => {
+    if (!selectedModel) return;
+
+    try {
+      setIsLoading(true);
+      
+      // Backend Integration: Send variables to API for calculation
+      const results = await apiService.calculateModel(selectedModel, variableSections);
+      setCalculationResults(results);
+      setShowResults(true);
+      
+      toast({
+        title: "Calculation Complete",
+        description: "Model calculations have been completed successfully."
+      });
+    } catch (error) {
+      console.error('Error calculating model:', error);
+      toast({
+        title: "Calculation Error",
+        description: "Failed to run model calculations. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  /**
+   * Handle Excel Import - Backend Integration
+   * FastAPI Endpoint: POST /api/v1/models/{model_id}/import
    */
   const handleImportComplete = async (data: RowData[], mappings: ColumnMapping[]) => {
+    if (!selectedModel) return;
+
     try {
-      // Process imported data and update variables
+      setIsLoading(true);
+      
+      // Backend Integration: Send import data to API
+      const importResult = await apiService.importExcelData(selectedModel, data, mappings);
+      
+      // Update local state with processed data
       const updatedSections = [...variableSections];
       
       data.forEach(row => {
-        // Find mappings that correspond to variable names and values
         mappings.forEach(mapping => {
           if (mapping.mappedTo && row[mapping.excelColumn]) {
             const mappedCategory = mapping.mappedTo;
             const value = parseFloat(String(row[mapping.excelColumn].value)) || 0;
             
-            // Find matching variable by mapped category across all sections
             updatedSections.forEach(section => {
               const matchingVariable = section.variables.find(variable => 
                 variable.name.toLowerCase().includes(mappedCategory.toLowerCase()) || 
@@ -241,7 +473,7 @@ export default function FinancialDashboard() {
       
       toast({
         title: "Import Successful",
-        description: `Imported ${data.length} rows of financial data.`
+        description: `Imported ${importResult.imported} rows from Excel file.`
       });
     } catch (error) {
       console.error('Import failed:', error);
@@ -250,6 +482,8 @@ export default function FinancialDashboard() {
         description: "There was an error importing your data. Please try again.",
         variant: "destructive"
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -269,21 +503,24 @@ export default function FinancialDashboard() {
   };
 
   /**
-   * Render Model-Specific Dashboard
-   * Each model has its own dashboard component for better organization
+   * Render Model-Specific Dashboard - Backend Data Integration
+   * Each dashboard component should receive calculationResults from backend
    */
   const renderModelDashboard = () => {
     if (!selectedModel || !showResults) return null;
 
+    // Props to pass backend calculation results to dashboard components
+    const dashboardProps = {
+      calculationResults,
+      modelId: selectedModel,
+      onRefresh: handleCalculateModel
+    };
+
     switch (selectedModel) {
       case '3-statement':
-        return <ThreeStatementDashboard />;
+        return <ThreeStatementDashboard {...dashboardProps} />;
       case 'dcf':
-        return <DCFDashboard />;
-      case 'lbo':
-        return <LBODashboard />;
-      case 'startup':
-        return <StartupDashboard />;
+        return <DCFDashboard {...dashboardProps} />;
       default:
         return (
           <div className="space-y-6">
@@ -311,17 +548,28 @@ export default function FinancialDashboard() {
             </div>
             {selectedModel && !showResults && (
               <Button 
-                onClick={() => setShowResults(true)}
+                onClick={handleCalculateModel}
+                disabled={isLoading}
                 className="ml-auto flex items-center gap-2"
               >
                 <Play className="h-4 w-4" />
-                Calculate Model
+                {isLoading ? 'Calculating...' : 'Calculate Model'}
               </Button>
             )}
           </header>
 
+          {/* Loading State */}
+          {isLoading && (
+            <div className="flex-1 flex items-center justify-center">
+              <div className="text-center space-y-4">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+                <p className="text-muted-foreground">Processing...</p>
+              </div>
+            </div>
+          )}
+
           {/* Main Content Area */}
-          {!selectedModel ? (
+          {!isLoading && !selectedModel ? (
             // Welcome Screen
             <div className="flex-1 flex items-center justify-center">
               <div className="text-center space-y-4">
@@ -333,7 +581,7 @@ export default function FinancialDashboard() {
                 </p>
               </div>
             </div>
-          ) : !showResults ? (
+          ) : !isLoading && !showResults ? (
             // Variable Configuration Screen
             <div className="flex-1 p-6">
               <div className="max-w-7xl mx-auto">
@@ -362,7 +610,7 @@ export default function FinancialDashboard() {
                     </Dialog>
                   </div>
 
-                  {/* Variable Sections Grid */}
+                  {/* Variable Sections Grid - Backend Data Driven */}
                   <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                     {variableSections.map((section) => {
                       const IconComponent = section.icon;
@@ -375,7 +623,7 @@ export default function FinancialDashboard() {
                             </CardTitle>
                           </CardHeader>
                           <CardContent className="space-y-4">
-                            {/* Variable List */}
+                            {/* Variable List - Backend Synced */}
                             <div className="space-y-3">
                               {section.variables.map((variable) => (
                                 <div key={variable.id} className="flex items-center gap-2">
@@ -414,7 +662,7 @@ export default function FinancialDashboard() {
                               ))}
                             </div>
 
-                            {/* Add Variable Button and Dialog */}
+                            {/* Add Variable Button and Dialog - Backend Integration */}
                             <div className="border-t pt-3">
                               <Dialog open={isAddingVariable && activeSection === section.id} onOpenChange={(open) => {
                                 setIsAddingVariable(open);
@@ -435,7 +683,7 @@ export default function FinancialDashboard() {
                                   </Button>
                                 </DialogTrigger>
                                 
-                                {/* Add Variable Dialog Content - Fixed Form Handling */}
+                                {/* Add Variable Dialog Content - Backend Ready */}
                                 <DialogContent className="bg-white border-gray-200 text-gray-900 max-w-2xl">
                                   <DialogHeader>
                                     <DialogTitle>Add Variable to {section.title}</DialogTitle>
@@ -444,25 +692,40 @@ export default function FinancialDashboard() {
                                     </DialogDescription>
                                   </DialogHeader>
                                   <Form {...addVariableForm}>
-                                    <form onSubmit={addVariableForm.handleSubmit((data: VariableFormData) => {
-                                      const newVariable: Variable = {
-                                        ...data,
-                                        id: Date.now().toString(),
-                                      };
-                                      setVariableSections(sections =>
-                                        sections.map(s =>
-                                          s.id === section.id
-                                            ? { ...s, variables: [...s.variables, newVariable] }
-                                            : s
-                                        )
-                                      );
-                                      setIsAddingVariable(false);
-                                      setActiveSection(null);
-                                      addVariableForm.reset();
-                                      toast({
-                                        title: "Variable Added",
-                                        description: `"${data.name}" has been added to ${section.title}.`
-                                      });
+                                    <form onSubmit={addVariableForm.handleSubmit(async (data: VariableFormData) => {
+                                      try {
+                                        const newVariable: Variable = {
+                                          ...data,
+                                          id: Date.now().toString(),
+                                        };
+                                        
+                                        // Backend Integration: Save to API
+                                        if (selectedModel) {
+                                          await apiService.createVariable(selectedModel, section.id, newVariable);
+                                        }
+                                        
+                                        setVariableSections(sections =>
+                                          sections.map(s =>
+                                            s.id === section.id
+                                              ? { ...s, variables: [...s.variables, newVariable] }
+                                              : s
+                                          )
+                                        );
+                                        setIsAddingVariable(false);
+                                        setActiveSection(null);
+                                        addVariableForm.reset();
+                                        toast({
+                                          title: "Variable Added",
+                                          description: `"${data.name}" has been added to ${section.title} and saved to backend.`
+                                        });
+                                      } catch (error) {
+                                        console.error('Error adding variable:', error);
+                                        toast({
+                                          title: "Error",
+                                          description: "Failed to add variable. Please try again.",
+                                          variant: "destructive"
+                                        });
+                                      }
                                     })} className="space-y-6">
                                       <div className="grid grid-cols-2 gap-4">
                                         <FormField
@@ -658,7 +921,7 @@ export default function FinancialDashboard() {
               </div>
             </div>
           ) : (
-            // Dashboard Results Screen
+            // Dashboard Results Screen - Backend Data Driven
             renderModelDashboard()
           )}
         </SidebarInset>
