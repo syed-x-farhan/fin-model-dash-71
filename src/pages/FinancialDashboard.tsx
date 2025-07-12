@@ -61,8 +61,8 @@ import { RowData, ColumnMapping } from '@/components/excel/DataPreviewTable';
  *    GET    /api/v1/auth/me                           - Get current user
  */
 
-// Backend API Configuration
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api/v1';
+// Backend API Configuration - Fixed for Vite environment
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
 
 /**
  * API Service Functions for FastAPI Backend Integration
