@@ -36,8 +36,8 @@ import { threeStatementMockData } from '@/data/threeStatementData';
  *    GET /api/v1/models/3-statement/export/pdf             - Export reports
  */
 
-// Backend API Configuration
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api/v1';
+// Backend API Configuration - Fixed for Vite environment
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
 
 /**
  * Dashboard API Service for Backend Integration
