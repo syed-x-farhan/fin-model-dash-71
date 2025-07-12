@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -5,7 +6,24 @@ import { DollarSign, TrendingUp, Calculator, Target } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-const LBODashboard: React.FC = () => {
+interface LBODashboardProps {
+  calculationResults?: any;
+  modelId?: string;
+  onRefresh?: () => Promise<void>;
+}
+
+const LBODashboard: React.FC<LBODashboardProps> = ({ 
+  calculationResults, 
+  modelId, 
+  onRefresh 
+}) => {
+  // Backend Integration: Use calculationResults when available
+  React.useEffect(() => {
+    if (calculationResults) {
+      console.log('LBO Dashboard received calculation results:', calculationResults);
+    }
+  }, [calculationResults]);
+
   return (
     <div className="space-y-6">
       <div className="text-center space-y-2">

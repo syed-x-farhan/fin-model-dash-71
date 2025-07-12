@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -5,7 +6,24 @@ import { DollarSign, TrendingUp, Users, Calendar } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-const StartupDashboard: React.FC = () => {
+interface StartupDashboardProps {
+  calculationResults?: any;
+  modelId?: string;
+  onRefresh?: () => Promise<void>;
+}
+
+const StartupDashboard: React.FC<StartupDashboardProps> = ({ 
+  calculationResults, 
+  modelId, 
+  onRefresh 
+}) => {
+  // Backend Integration: Use calculationResults when available
+  React.useEffect(() => {
+    if (calculationResults) {
+      console.log('Startup Dashboard received calculation results:', calculationResults);
+    }
+  }, [calculationResults]);
+
   return (
     <div className="space-y-6">
       <div className="text-center space-y-2">
