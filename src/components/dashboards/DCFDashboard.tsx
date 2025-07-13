@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { DollarSign, TrendingUp, Calculator, Target } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import PDFExporter from '@/components/PDFExporter';
 
 interface DCFDashboardProps {
   calculationResults?: any;
@@ -46,8 +47,18 @@ const DCFDashboard: React.FC<DCFDashboardProps> = ({
   return (
     <div className="space-y-6">
       <div className="text-center space-y-2">
-        <h1 className="text-3xl font-bold text-foreground">DCF Valuation Results</h1>
-        <p className="text-muted-foreground">Discounted cash flow analysis and enterprise valuation</p>
+        <div className="flex justify-between items-start">
+          <div className="flex-1">
+            <h1 className="text-3xl font-bold text-foreground">DCF Valuation Results</h1>
+            <p className="text-muted-foreground">Discounted cash flow analysis and enterprise valuation</p>
+          </div>
+          <PDFExporter 
+            title="DCF Valuation Results"
+            subtitle="Discounted cash flow analysis and enterprise valuation"
+            dashboardType="dcf"
+            data={calculationResults}
+          />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
