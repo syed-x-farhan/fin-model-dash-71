@@ -45,12 +45,12 @@ export function AppSidebar({ selectedModel, onModelSelect }: AppSidebarProps) {
           </div>
         </div>
         
-        <SidebarGroup className="px-0">
-          <SidebarGroupLabel className="px-4 py-2 text-xs font-medium text-sidebar-foreground/60 uppercase tracking-wide">
+        <SidebarGroup className="px-0 pt-4">
+          <SidebarGroupLabel className="px-4 py-2 mb-2 text-xs font-medium text-sidebar-foreground/60 uppercase tracking-wide">
             Financial Models
           </SidebarGroupLabel>
-          <SidebarGroupContent className="px-2">
-            <SidebarMenu>
+          <SidebarGroupContent className="px-3">
+            <SidebarMenu className="space-y-2">
               {models.map((model) => {
                 const IconComponent = model.icon;
                 const isActive = selectedModel === model.id;
@@ -60,14 +60,14 @@ export function AppSidebar({ selectedModel, onModelSelect }: AppSidebarProps) {
                     <SidebarMenuButton
                       isActive={isActive}
                       onClick={() => onModelSelect(model.id)}
-                      className={`w-full justify-start px-3 py-2 mx-2 mb-1 rounded-lg ${
+                      className={`w-full justify-start px-3 py-2.5 mx-1 rounded-lg transition-all duration-200 ${
                         isActive 
-                          ? 'bg-primary text-primary-foreground font-medium' 
-                          : 'text-sidebar-foreground hover:bg-sidebar-accent'
+                          ? 'bg-primary text-primary-foreground font-medium shadow-sm border border-primary/20' 
+                          : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
                       }`}
                     >
-                      <IconComponent className="h-4 w-4 mr-3" />
-                      <span className="text-sm">{model.name}</span>
+                      <IconComponent className="h-4 w-4 mr-3 flex-shrink-0" />
+                      <span className="text-sm truncate">{model.name}</span>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 );
