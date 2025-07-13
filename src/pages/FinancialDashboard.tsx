@@ -610,54 +610,54 @@ export default function FinancialDashboard() {
                     </Dialog>
                   </div>
 
-                  {/* Variable Sections Grid - Backend Data Driven */}
-                  <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                  {/* Variable Sections Grid - Improved Layout */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {variableSections.map((section) => {
                       const IconComponent = section.icon;
                       return (
                         <Card key={section.id} className="h-fit">
-                          <CardHeader>
+                          <CardHeader className="pb-3">
                             <CardTitle className="flex items-center gap-2 text-base">
-                              <IconComponent className="h-5 w-5" />
-                              {section.title}
+                              <IconComponent className="h-5 w-5 flex-shrink-0" />
+                              <span className="truncate">{section.title}</span>
                             </CardTitle>
                           </CardHeader>
                           <CardContent className="space-y-4">
-                            {/* Variable List - Backend Synced */}
+                            {/* Variable List - Improved Layout */}
                             <div className="space-y-3">
                               {section.variables.map((variable) => (
-                                <div key={variable.id} className="flex items-center gap-2">
-                                  <div className="flex-1">
-                                    <Label htmlFor={variable.id} className="text-xs text-muted-foreground">
+                                <div key={variable.id} className="space-y-2 p-2 border rounded-lg bg-muted/30">
+                                  <div className="flex items-center justify-between">
+                                    <Label htmlFor={variable.id} className="text-xs font-medium text-muted-foreground truncate flex-1 pr-2">
                                       {variable.name}
                                     </Label>
-                                    <div className="flex items-center gap-1 mt-1">
-                                      <Input
-                                        id={variable.id}
-                                        type="number"
-                                        value={variable.value}
-                                        onChange={(e) => handleVariableChange(
-                                          section.id, 
-                                          variable.id, 
-                                          parseFloat(e.target.value) || 0
-                                        )}
-                                        className="h-8 text-xs"
-                                      />
-                                      {variable.unit && (
-                                        <span className="text-xs text-muted-foreground min-w-fit">
-                                          {variable.unit}
-                                        </span>
-                                      )}
-                                    </div>
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      onClick={() => handleRemoveVariable(section.id, variable.id)}
+                                      className="h-5 w-5 p-0 text-destructive hover:text-destructive hover:bg-destructive/10 flex-shrink-0"
+                                    >
+                                      <Trash2 className="h-3 w-3" />
+                                    </Button>
                                   </div>
-                                  <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={() => handleRemoveVariable(section.id, variable.id)}
-                                    className="h-6 w-6 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
-                                  >
-                                    <Trash2 className="h-3 w-3" />
-                                  </Button>
+                                  <div className="flex items-center gap-2">
+                                    <Input
+                                      id={variable.id}
+                                      type="number"
+                                      value={variable.value}
+                                      onChange={(e) => handleVariableChange(
+                                        section.id, 
+                                        variable.id, 
+                                        parseFloat(e.target.value) || 0
+                                      )}
+                                      className="h-8 text-xs text-right flex-1"
+                                    />
+                                    {variable.unit && (
+                                      <span className="text-xs text-muted-foreground font-medium min-w-[20px] text-center">
+                                        {variable.unit}
+                                      </span>
+                                    )}
+                                  </div>
                                 </div>
                               ))}
                             </div>
