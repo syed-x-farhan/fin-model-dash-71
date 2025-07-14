@@ -49,7 +49,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const handleModelSelect = (modelId: string) => {
-    navigate(`/model/${modelId}/configure`);
+    navigate(`/model/${modelId}/company-type`);
   };
 
   return (
@@ -120,8 +120,8 @@ const Home = () => {
               <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mx-auto mb-4">
                 <BarChart3 className="h-6 w-6 text-white" />
               </div>
-              <h3 className="text-xl font-semibold text-white mb-3">Dynamic Variables</h3>
-              <p className="text-slate-300">Add, remove, and customize input variables on the fly to match your specific modeling needs.</p>
+              <h3 className="text-xl font-semibold text-white mb-3">Industry-Specific Variables</h3>
+              <p className="text-slate-300">Pre-configured templates for different business models including SaaS, retail, manufacturing, and more.</p>
             </div>
             <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
               <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mx-auto mb-4">
