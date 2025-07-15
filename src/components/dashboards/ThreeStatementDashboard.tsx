@@ -6,7 +6,6 @@ import { TrendingUp, TrendingDown, Activity, DollarSign, BarChart3, PieChart } f
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart as RechartsPieChart, Pie, Cell, ComposedChart, Area, AreaChart } from 'recharts';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { threeStatementMockData } from '@/data/threeStatementData';
-import PDFExporter from '@/components/PDFExporter';
 
 /**
  * =============================================================================
@@ -240,18 +239,8 @@ const ThreeStatementDashboard: React.FC<ThreeStatementDashboardProps> = ({
     <div className="space-y-6">
       {/* Dashboard Header Section */}
       <div className="text-center space-y-4">
-        <div className="flex justify-between items-start">
-          <div className="flex-1">
-            <h1 className="text-3xl font-bold text-foreground">3-Statement Financial Model Results</h1>
-            <p className="text-muted-foreground">Comprehensive view of Income Statement, Balance Sheet, and Cash Flow projections</p>
-          </div>
-          <PDFExporter 
-            title="3-Statement Financial Model Results"
-            subtitle="Comprehensive view of Income Statement, Balance Sheet, and Cash Flow projections"
-            dashboardType="three-statement"
-            data={calculationResults}
-          />
-        </div>
+        <h1 className="text-3xl font-bold text-foreground">3-Statement Financial Model Results</h1>
+        <p className="text-muted-foreground">Comprehensive view of Income Statement, Balance Sheet, and Cash Flow projections</p>
       </div>
 
       {/* Main Dashboard Tabs - Backend Data Driven */}

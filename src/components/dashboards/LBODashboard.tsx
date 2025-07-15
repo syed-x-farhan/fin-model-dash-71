@@ -5,7 +5,6 @@ import { Badge } from '@/components/ui/badge';
 import { DollarSign, TrendingUp, Calculator, Target } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import PDFExporter from '@/components/PDFExporter';
 
 interface LBODashboardProps {
   calculationResults?: any;
@@ -28,18 +27,8 @@ const LBODashboard: React.FC<LBODashboardProps> = ({
   return (
     <div className="space-y-6">
       <div className="text-center space-y-2">
-        <div className="flex justify-between items-start">
-          <div className="flex-1">
-            <h1 className="text-3xl font-bold text-foreground">LBO Analysis Model Results</h1>
-            <p className="text-muted-foreground">Leveraged buyout financial modeling and returns analysis</p>
-          </div>
-          <PDFExporter 
-            title="LBO Analysis Model Results"
-            subtitle="Leveraged buyout financial modeling and returns analysis"
-            dashboardType="lbo"
-            data={calculationResults}
-          />
-        </div>
+        <h1 className="text-3xl font-bold text-foreground">LBO Analysis Model Results</h1>
+        <p className="text-muted-foreground">Leveraged buyout financial modeling and returns analysis</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
