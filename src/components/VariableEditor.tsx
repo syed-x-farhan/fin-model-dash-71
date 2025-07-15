@@ -25,41 +25,41 @@ export function VariableEditor({ variable, value, onChange }: VariableEditorProp
   };
 
   return (
-    <Card className="h-full min-h-[140px] flex flex-col">
-      <CardHeader className="pb-3 flex-shrink-0">
-        <CardTitle className="text-sm font-medium leading-tight line-clamp-2 min-h-[2.5rem]">
+    <Card className="h-full min-h-[160px] flex flex-col hover:shadow-md transition-shadow duration-200 border-gray-200">
+      <CardHeader className="pb-4 flex-shrink-0">
+        <CardTitle className="text-base font-semibold leading-tight line-clamp-2 min-h-[2.5rem] text-gray-900">
           {variable.name}
         </CardTitle>
         {variable.description && (
-          <CardDescription className="text-xs text-muted-foreground line-clamp-2">
+          <CardDescription className="text-sm text-gray-600 line-clamp-2 leading-relaxed">
             {variable.description}
           </CardDescription>
         )}
       </CardHeader>
-      <CardContent className="flex-1 flex flex-col justify-between">
-        <div className="space-y-3">
+      <CardContent className="flex-1 flex flex-col justify-between pt-0">
+        <div className="space-y-4">
           <div>
-            <Label htmlFor={variable.id} className="text-xs font-medium text-muted-foreground">
+            <Label htmlFor={variable.id} className="text-sm font-medium text-gray-700 mb-2 block">
               Value {variable.unit && `(${variable.unit})`}
             </Label>
-            <div className="flex items-center gap-2 mt-1">
+            <div className="flex items-center gap-3">
               <Input
                 id={variable.id}
                 type="number"
                 value={value}
                 onChange={handleChange}
-                className="text-right text-sm h-9 flex-1"
+                className="text-right text-base h-10 flex-1 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                 step={variable.unit === '%' ? 0.1 : variable.unit === '$' ? 1000 : 1}
               />
               {variable.unit && (
-                <span className="text-xs text-muted-foreground font-medium min-w-[20px] text-center">
+                <span className="text-sm text-gray-500 font-medium min-w-[24px] text-center">
                   {variable.unit}
                 </span>
               )}
             </div>
           </div>
-          <div className="text-xs text-muted-foreground bg-muted/50 px-2 py-1 rounded text-center">
-            Current: {formatValue(value)} {variable.unit}
+          <div className="text-sm text-gray-600 bg-gray-50 px-3 py-2 rounded-md text-center border">
+            <span className="font-medium">Current:</span> {formatValue(value)} {variable.unit}
           </div>
         </div>
       </CardContent>

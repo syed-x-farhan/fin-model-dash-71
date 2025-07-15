@@ -33,11 +33,11 @@ export function WorkflowStepper({ steps, currentStep, completedSteps, className 
                 {/* Step Circle */}
                 <div
                   className={cn(
-                    "w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-200",
+                    "w-11 h-11 rounded-full flex items-center justify-center border-2 transition-all duration-300 shadow-sm",
                     {
-                      "bg-blue-600 border-blue-600 text-white": isCompleted,
-                      "bg-white border-blue-600 text-blue-600": isCurrent,
-                      "bg-gray-100 border-gray-300 text-gray-400": isUpcoming,
+                      "bg-blue-600 border-blue-600 text-white shadow-blue-100": isCompleted,
+                      "bg-white border-blue-600 text-blue-600 shadow-blue-50": isCurrent,
+                      "bg-gray-50 border-gray-300 text-gray-400": isUpcoming,
                     }
                   )}
                 >
@@ -49,20 +49,20 @@ export function WorkflowStepper({ steps, currentStep, completedSteps, className 
                 </div>
                 
                 {/* Step Label */}
-                <div className="mt-2 text-center">
+                <div className="mt-3 text-center">
                   <div
                     className={cn(
                       "text-sm font-medium transition-colors",
                       {
                         "text-blue-600": isCompleted || isCurrent,
-                        "text-gray-400": isUpcoming,
+                        "text-gray-500": isUpcoming,
                       }
                     )}
                   >
                     {step.title}
                   </div>
                   {step.description && (
-                    <div className="text-xs text-gray-500 mt-1 max-w-24">
+                    <div className="text-xs text-gray-500 mt-1 max-w-28 leading-tight">
                       {step.description}
                     </div>
                   )}
@@ -74,7 +74,7 @@ export function WorkflowStepper({ steps, currentStep, completedSteps, className 
                 <div className="flex-1 mx-4">
                   <div
                     className={cn(
-                      "h-0.5 transition-colors duration-200",
+                      "h-0.5 transition-colors duration-300",
                       {
                         "bg-blue-600": index < currentIndex,
                         "bg-gray-300": index >= currentIndex,
