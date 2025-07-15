@@ -53,14 +53,14 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <div className="container mx-auto px-6 py-12">
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold text-foreground mb-6 tracking-tight">
+          <h1 className="text-5xl font-bold text-white mb-6 tracking-tight">
             Financial Modeling Suite
           </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
             Professional-grade financial models to power your investment decisions. 
             Choose from our comprehensive suite of modeling tools designed for analysts, 
             investors, and finance professionals.
@@ -74,31 +74,31 @@ const Home = () => {
             return (
               <Card 
                 key={model.id} 
-                className="border-border hover:shadow-lg transition-all duration-300 cursor-pointer bg-card hover:bg-accent/5"
+                className="bg-slate-800/80 border-slate-700 hover:bg-slate-800 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl cursor-pointer group"
                 onClick={() => handleModelSelect(model.id)}
               >
                 <CardHeader className="pb-4">
                   <div className="flex items-start justify-between">
-                    <div className="p-3 rounded-xl bg-primary/10">
-                      <IconComponent className="h-8 w-8 text-primary" />
+                    <div className={`p-3 rounded-xl bg-gradient-to-r ${model.color} shadow-lg group-hover:shadow-xl transition-shadow`}>
+                      <IconComponent className="h-8 w-8 text-white" />
                     </div>
                     <div className="flex flex-col gap-2 items-end">
-                      <Badge variant="secondary">
+                      <Badge variant="secondary" className="bg-slate-700 text-slate-200">
                         {model.complexity}
                       </Badge>
-                      <span className="text-sm text-muted-foreground">{model.timeEstimate}</span>
+                      <span className="text-sm text-slate-400">{model.timeEstimate}</span>
                     </div>
                   </div>
-                  <CardTitle className="text-2xl text-card-foreground mt-4">
+                  <CardTitle className="text-2xl text-white mt-4 group-hover:text-blue-400 transition-colors">
                     {model.name}
                   </CardTitle>
-                  <CardDescription className="text-muted-foreground text-base leading-relaxed">
+                  <CardDescription className="text-slate-300 text-base leading-relaxed">
                     {model.description}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <Button 
-                    className="w-full"
+                    className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-semibold py-3 rounded-lg shadow-lg hover:shadow-xl transition-all"
                     onClick={(e) => {
                       e.stopPropagation();
                       handleModelSelect(model.id);
@@ -114,28 +114,28 @@ const Home = () => {
 
         {/* Features Section */}
         <div className="mt-20 text-center">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Why Choose Our Platform?</h2>
+          <h2 className="text-3xl font-bold text-white mb-8">Why Choose Our Platform?</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <div className="bg-card/50 p-6 rounded-xl border border-border">
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <BarChart3 className="h-6 w-6 text-primary" />
+            <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+              <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <BarChart3 className="h-6 w-6 text-white" />
               </div>
-              <h3 className="text-xl font-semibold text-card-foreground mb-3">Industry-Specific Variables</h3>
-              <p className="text-muted-foreground">Pre-configured templates for different business models including SaaS, retail, manufacturing, and more.</p>
+              <h3 className="text-xl font-semibold text-white mb-3">Dynamic Variables</h3>
+              <p className="text-slate-300">Add, remove, and customize input variables on the fly to match your specific modeling needs.</p>
             </div>
-            <div className="bg-card/50 p-6 rounded-xl border border-border">
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <TrendingUp className="h-6 w-6 text-primary" />
+            <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+              <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <TrendingUp className="h-6 w-6 text-white" />
               </div>
-              <h3 className="text-xl font-semibold text-card-foreground mb-3">Real-time Results</h3>
-              <p className="text-muted-foreground">See your model outputs update instantly with interactive charts and comprehensive financial statements.</p>
+              <h3 className="text-xl font-semibold text-white mb-3">Real-time Results</h3>
+              <p className="text-slate-300">See your model outputs update instantly with interactive charts and comprehensive financial statements.</p>
             </div>
-            <div className="bg-card/50 p-6 rounded-xl border border-border">
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <Building2 className="h-6 w-6 text-primary" />
+            <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+              <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <Building2 className="h-6 w-6 text-white" />
               </div>
-              <h3 className="text-xl font-semibold text-card-foreground mb-3">Professional Grade</h3>
-              <p className="text-muted-foreground">Built with industry-standard methodologies and best practices used by top investment banks.</p>
+              <h3 className="text-xl font-semibold text-white mb-3">Professional Grade</h3>
+              <p className="text-slate-300">Built with industry-standard methodologies and best practices used by top investment banks.</p>
             </div>
           </div>
         </div>
