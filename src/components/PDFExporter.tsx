@@ -11,7 +11,6 @@ interface PDFExporterProps {
   dashboardType: 'dcf' | 'lbo' | 'startup' | 'three-statement';
   data?: any;
   className?: string;
-  dashboardRef?: React.RefObject<HTMLDivElement>;
 }
 
 interface MetricData {
@@ -26,55 +25,14 @@ const PDFExporter: React.FC<PDFExporterProps> = ({
   subtitle, 
   dashboardType, 
   data,
-  className = "",
-  dashboardRef 
+  className = "" 
 }) => {
   const [isExporting, setIsExporting] = useState(false);
-
-  const captureDashboardCharts = async () => {
-    const charts: { canvas: HTMLCanvasElement; title: string; height: number }[] = [];
-    
-    // Find all chart containers in the dashboard
-    const chartContainers = document.querySelectorAll('.recharts-wrapper, .recharts-responsive-container');
-    
-    for (const container of chartContainers) {
-      try {
-        // Get the chart title from parent card
-        const parentCard = container.closest('[class*="Card"], .space-y-4, .space-y-6');
-        const cardTitle = parentCard?.querySelector('h3, h4, .text-lg, .font-semibold, [class*="CardTitle"]');
-        const chartTitle = cardTitle?.textContent?.trim() || 'Financial Chart';
-        
-        const canvas = await html2canvas(container as HTMLElement, {
-          backgroundColor: '#ffffff',
-          scale: 1.5,
-          logging: false,
-          useCORS: true,
-          allowTaint: true,
-          height: Math.min((container as HTMLElement).offsetHeight, 500),
-          width: (container as HTMLElement).offsetWidth
-        });
-        
-        charts.push({ 
-          canvas, 
-          title: chartTitle,
-          height: Math.min(canvas.height / 1.5, 150) // Scale down for PDF
-        });
-      } catch (error) {
-        console.warn('Failed to capture chart:', error);
-      }
-    }
-    
-    return charts;
-  };
 
   const generateProfessionalPDF = async () => {
     setIsExporting(true);
     
     try {
-      // Capture dashboard charts first
-      toast.info('Capturing dashboard charts...');
-      const charts = await captureDashboardCharts();
-      
       // Create new PDF document
       const pdf = new jsPDF('p', 'mm', 'a4');
       const pageWidth = pdf.internal.pageSize.getWidth();
@@ -178,46 +136,6 @@ const PDFExporter: React.FC<PDFExporterProps> = ({
 
       const analysis = getDashboardAnalysis(dashboardType);
       yPosition = addText(analysis, margin, yPosition, pageWidth - 2 * margin, 11, 'normal');
-
-      // Add charts section
-      yPosition += 15;
-      if (yPosition > pageHeight - 50) {
-        pdf.addPage();
-        yPosition = margin;
-      }
-
-      yPosition = addText('Dashboard Visualizations', margin, yPosition, pageWidth - 2 * margin, 14, 'bold');
-      yPosition += 5;
-      
-      pdf.line(margin, yPosition, pageWidth - margin, yPosition);
-      yPosition += 10;
-
-      // Add captured charts
-      for (const chart of charts) {
-        // Check if we need a new page
-        if (yPosition + chart.height + 20 > pageHeight - 30) {
-          pdf.addPage();
-          yPosition = margin;
-        }
-
-        // Add chart title
-        yPosition = addText(chart.title, margin, yPosition, pageWidth - 2 * margin, 12, 'bold');
-        yPosition += 5;
-
-        // Add chart image
-        const chartWidth = Math.min(pageWidth - 2 * margin, 170);
-        const chartHeight = (chart.canvas.height / chart.canvas.width) * chartWidth;
-        
-        try {
-          const imgData = chart.canvas.toDataURL('image/png');
-          pdf.addImage(imgData, 'PNG', margin, yPosition, chartWidth, chartHeight);
-          yPosition += chartHeight + 10;
-        } catch (error) {
-          console.warn('Failed to add chart to PDF:', error);
-          yPosition = addText('Chart could not be exported', margin, yPosition, pageWidth - 2 * margin, 10, 'normal');
-          yPosition += 10;
-        }
-      }
 
       // Add model assumptions
       yPosition += 15;
