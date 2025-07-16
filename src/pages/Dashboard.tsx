@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
@@ -12,7 +11,7 @@ import {
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { MODEL_CONFIGS, ModelId, getModelConfig } from '@/config/models';
-import { ThreeStatementDashboard } from '@/components/dashboards/ThreeStatementDashboard';
+import ThreeStatementDashboard from '@/components/dashboards/ThreeStatementDashboard';
 
 export default function Dashboard() {
   const { modelId } = useParams();
