@@ -227,8 +227,11 @@ export default function FinancialDashboard() {
   const navigate = useNavigate();
   const { modelId } = useParams();
   
+  // Validate modelId and handle invalid cases
+  const validModelId = modelId && isValidModelId(modelId) ? modelId as ModelId : null;
+  
   // State Management - Backend Integration Points
-  const [selectedModel, setSelectedModel] = useState<ModelId | null>(modelId as ModelId || null);
+  const [selectedModel, setSelectedModel] = useState<ModelId | null>(validModelId);
   const [variableSections, setVariableSections] = useState<VariableSection[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   
@@ -252,6 +255,17 @@ export default function FinancialDashboard() {
     }
   });
 
+  // Show error message for invalid model ID
+  React.useEffect(() => {
+    if (modelId && !isValidModelId(modelId)) {
+      toast({
+        title: "Invalid Model",
+        description: `Model "${modelId}" not found. Please select a valid model.`,
+        variant: "destructive"
+      });
+    }
+  }, [modelId, toast]);
+
   /**
    * Handle Model Selection - Backend Integration
    * FastAPI Endpoint: GET /api/v1/models/{model_id}/variables
@@ -259,6 +273,11 @@ export default function FinancialDashboard() {
   const handleModelSelect = async (modelId: string) => {
     if (!isValidModelId(modelId)) {
       console.error(`Invalid model ID: ${modelId}`);
+      toast({
+        title: "Invalid Model",
+        description: `Model "${modelId}" is not available.`,
+        variant: "destructive"
+      });
       return;
     }
     
@@ -497,14 +516,20 @@ export default function FinancialDashboard() {
   };
 
   /**
-   * Get Model Display Information
+   * Get Model Display Information - With Error Handling
    */
   const getModelName = () => {
-    return selectedModel ? MODEL_CONFIGS[selectedModel].info.name : '';
+    if (!selectedModel || !isValidModelId(selectedModel)) {
+      return 'Select a Model';
+    }
+    return MODEL_CONFIGS[selectedModel].info.name;
   };
 
   const getModelDescription = () => {
-    return selectedModel ? MODEL_CONFIGS[selectedModel].info.description : '';
+    if (!selectedModel || !isValidModelId(selectedModel)) {
+      return 'Please select a valid financial model to continue';
+    }
+    return MODEL_CONFIGS[selectedModel].info.description;
   };
 
   return (
@@ -555,7 +580,7 @@ export default function FinancialDashboard() {
 
           {/* Main Content Area */}
           {!isLoading && !selectedModel ? (
-            // Welcome Screen
+            // Welcome Screen - Show when no valid model is selected
             <div className="flex-1 flex items-center justify-center">
               <div className="text-center space-y-4">
                 <h2 className="text-2xl font-bold text-foreground">
@@ -564,6 +589,13 @@ export default function FinancialDashboard() {
                 <p className="text-muted-foreground">
                   Select a financial model from the sidebar to get started
                 </p>
+                {modelId && !isValidModelId(modelId) && (
+                  <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4 max-w-md mx-auto">
+                    <p className="text-destructive text-sm">
+                      Model "{modelId}" is not available. Available models: 3-statement, dcf, lbo, startup
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           ) : !isLoading && (
