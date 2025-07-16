@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import { CompanyTypeSelector } from "./components/CompanyTypeSelector";
 import FinancialDashboard from "./pages/FinancialDashboard";
+import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -21,6 +22,7 @@ const App = () => (
           <Route path="/" element={<Home />} />
           <Route path="/model/:modelId/company-type" element={<CompanyTypeSelector />} />
           <Route path="/model/:modelId/variables" element={<FinancialDashboard />} />
+          <Route path="/model/:modelId/dashboard" element={<Dashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

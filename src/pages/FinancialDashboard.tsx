@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate, useParams } from 'react-router-dom';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/AppSidebar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,16 +11,12 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { PlusCircle, Trash2, Calculator, TrendingUp, DollarSign, BarChart3, Activity, ChevronDown, Play, Building2, Laptop, Home, Factory, FileText, TrendingDown, Plus, Edit3, Upload } from 'lucide-react';
+import { PlusCircle, Trash2, Calculator, TrendingUp, DollarSign, BarChart3, Activity, ChevronDown, Play, Building2, Laptop, Home, Factory, FileText, TrendingDown, Plus, Edit3, Upload, ArrowRight } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 // Import organized model configurations
 import { MODEL_CONFIGS, ModelId, getModelConfig, isValidModelId } from '@/config/models';
 import { Variable, VariableSection } from '@/config/models/threeStatementConfig';
-
-// Keep existing import statements for dashboard components
-import ThreeStatementDashboard from '@/components/dashboards/ThreeStatementDashboard';
-import DCFDashboard from '@/components/dashboards/DCFDashboard';
 
 // Import Excel components
 import { ImportWizard } from '@/components/excel/ImportWizard';
@@ -227,13 +224,13 @@ const RELATIVE_TO_OPTIONS = [
  */
 export default function FinancialDashboard() {
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const { modelId } = useParams();
   
   // State Management - Backend Integration Points
-  const [selectedModel, setSelectedModel] = useState<ModelId | null>(null);
+  const [selectedModel, setSelectedModel] = useState<ModelId | null>(modelId as ModelId || null);
   const [variableSections, setVariableSections] = useState<VariableSection[]>([]);
-  const [showResults, setShowResults] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [calculationResults, setCalculationResults] = useState<any>(null);
   
   // UI State for Variable Management
   const [newVariableName, setNewVariableName] = useState('');
@@ -273,7 +270,7 @@ export default function FinancialDashboard() {
       // Backend Integration: Load model-specific variables from API
       const variables = await apiService.getModelVariables(modelId);
       setVariableSections(variables);
-      setShowResults(false);
+      setShowImportWizard(false);
       
       toast({
         title: "Model Loaded",
@@ -402,7 +399,7 @@ export default function FinancialDashboard() {
   };
 
   /**
-   * Handle Model Calculation - Backend Integration
+   * Handle Model Calculation and Navigate to Dashboard - Backend Integration
    * FastAPI Endpoint: POST /api/v1/models/{model_id}/calculate
    */
   const handleCalculateModel = async () => {
@@ -413,13 +410,21 @@ export default function FinancialDashboard() {
       
       // Backend Integration: Send variables to API for calculation
       const results = await apiService.calculateModel(selectedModel, variableSections);
-      setCalculationResults(results);
-      setShowResults(true);
+      
+      // Store results in localStorage to pass to dashboard
+      localStorage.setItem('calculationResults', JSON.stringify(results));
+      localStorage.setItem('modelVariables', JSON.stringify(variableSections));
       
       toast({
         title: "Calculation Complete",
-        description: "Model calculations have been completed successfully."
+        description: "Model calculations completed. Redirecting to dashboard..."
       });
+      
+      // Navigate to dashboard
+      setTimeout(() => {
+        navigate(`/model/${selectedModel}/dashboard`);
+      }, 1000);
+      
     } catch (error) {
       console.error('Error calculating model:', error);
       toast({
@@ -502,37 +507,6 @@ export default function FinancialDashboard() {
     return selectedModel ? MODEL_CONFIGS[selectedModel].info.description : '';
   };
 
-  /**
-   * Render Model-Specific Dashboard - Backend Data Integration
-   * Each dashboard component should receive calculationResults from backend
-   */
-  const renderModelDashboard = () => {
-    if (!selectedModel || !showResults) return null;
-
-    // Props to pass backend calculation results to dashboard components
-    const dashboardProps = {
-      calculationResults,
-      modelId: selectedModel,
-      onRefresh: handleCalculateModel
-    };
-
-    switch (selectedModel) {
-      case '3-statement':
-        return <ThreeStatementDashboard {...dashboardProps} />;
-      case 'dcf':
-        return <DCFDashboard {...dashboardProps} />;
-      default:
-        return (
-          <div className="space-y-6">
-            <div className="text-center space-y-2">
-              <h1 className="text-3xl font-bold text-foreground">{getModelName()} Results</h1>
-              <p className="text-muted-foreground">Financial analysis and projections dashboard</p>
-            </div>
-          </div>
-        );
-    }
-  };
-
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full">
@@ -546,15 +520,26 @@ export default function FinancialDashboard() {
               <h1 className="text-xl font-semibold text-foreground">{getModelName()}</h1>
               <p className="text-sm text-muted-foreground">{getModelDescription()}</p>
             </div>
-            {selectedModel && !showResults && (
-              <Button 
-                onClick={handleCalculateModel}
-                disabled={isLoading}
-                className="ml-auto flex items-center gap-2"
-              >
-                <Play className="h-4 w-4" />
-                {isLoading ? 'Calculating...' : 'Calculate Model'}
-              </Button>
+            {selectedModel && (
+              <div className="ml-auto flex gap-2">
+                <Button 
+                  variant="outline"
+                  onClick={() => navigate(`/model/${selectedModel}/dashboard`)}
+                  className="flex items-center gap-2"
+                >
+                  <BarChart3 className="h-4 w-4" />
+                  View Dashboard
+                </Button>
+                <Button 
+                  onClick={handleCalculateModel}
+                  disabled={isLoading}
+                  className="flex items-center gap-2"
+                >
+                  <Play className="h-4 w-4" />
+                  {isLoading ? 'Calculating...' : 'Calculate & View Results'}
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </div>
             )}
           </header>
 
@@ -563,7 +548,7 @@ export default function FinancialDashboard() {
             <div className="flex-1 flex items-center justify-center">
               <div className="text-center space-y-4">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-                <p className="text-muted-foreground">Processing...</p>
+                <p className="text-muted-foreground">Processing calculations...</p>
               </div>
             </div>
           )}
@@ -581,13 +566,13 @@ export default function FinancialDashboard() {
                 </p>
               </div>
             </div>
-          ) : !isLoading && !showResults ? (
+          ) : !isLoading && (
             // Variable Configuration Screen
             <div className="flex-1 p-6">
               <div className="max-w-7xl mx-auto">
                 <div className="space-y-6">
                   <div className="flex items-center justify-between">
-                    <h2 className="text-lg font-semibold text-foreground">Model Variables</h2>
+                    <h2 className="text-lg font-semibold text-foreground">Configure Model Variables</h2>
                     <Dialog open={showImportWizard} onOpenChange={setShowImportWizard}>
                       <DialogTrigger asChild>
                         <Button variant="outline" className="gap-2">
@@ -920,9 +905,6 @@ export default function FinancialDashboard() {
                 </div>
               </div>
             </div>
-          ) : (
-            // Dashboard Results Screen - Backend Data Driven
-            renderModelDashboard()
           )}
         </SidebarInset>
       </div>
